@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing example App loads with initial state of 0 1`] = `
+<button>
+  count is 
+  0
+</button>
+`;
+
+exports[`Testing example click the button 1`] = `
+<button>
+  count is 
+  0
+</button>
+`;
+
+exports[`Testing example renders Vite + React 18 + Typescript + Tailwindcss 1`] = `
+<div>
+  <div
+    class="App"
+  >
+    <div>
+      <button
+        class="font-medium bg-emerald-200 p-3 rounded uppercase"
+        type="button"
+      >
+        Hello there!
+      </button>
+    </div>
+    <h1>
+      Vite + React 18 + Typescript + Tailwindcss
+    </h1>
+    <div
+      class="card"
+    >
+      <button>
+        count is 
+        0
+      </button>
+      <p>
+        Edit 
+        <code>
+          src/App.tsx
+        </code>
+         and save to test automatic changes
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Testing example renders the button 1`] = `
+<button>
+  count is 
+  0
+</button>
+`;

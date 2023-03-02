@@ -15,7 +15,7 @@ lerna-debug.log*
 
 # testing
 /coverage
-src/__snapshots__
+/src/__snapshots__
 junit.xml
 
 # Editor directories and files

@@ -4,7 +4,7 @@ interface ButtonProps{
   contenido:string;
 }
 
-const Button = (props:ButtonProps) => {
+export const Button = (props:ButtonProps) => {
 	return (
 		<button className="font-medium bg-emerald-200 p-3 rounded uppercase" type="button">
 			{props.contenido}
@@ -12,4 +12,3 @@ const Button = (props:ButtonProps) => {
 	);
 };
 
-export default Button;

@@ -11,7 +11,7 @@ const App = () => {
 			<div>
 				<Button contenido={'Hello there!'}/>	
 			</div>
-			<h1>Vite + React 18 + Typescript + Tailwindcss</h1>
+			<h1>LoginApp with React 18</h1>
 			<div className="card">
 				<button onClick={() => setCount((count) => count + 1)}>
           count is {count}

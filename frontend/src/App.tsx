@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import   Button  from './components/Button';
 
+import viteLogo from '../../public/vite.svg';
+
 import './App.css';
 
 const App = () => {
@@ -8,6 +10,7 @@ const App = () => {
 
 	return (
 		<div className="App">
+			<img src={viteLogo} alt="Vite Logo" />
 			<div>
 				<Button contenido={'Hello there!'}/>	
 			</div>

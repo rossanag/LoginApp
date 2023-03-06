@@ -7,7 +7,7 @@ import path from 'path';
 export default defineConfig({
 	plugins: [react(),eslint()],
 	server: {
-		open: 'index.html',
+		open: '/index.html',
 	}, 
 	resolve: {
 		alias: {

@@ -3,23 +3,31 @@
     "target": "ESNext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "allowJs": false,
-    "skipLibCheck": true,
+    "allowJs": true,
+    "declaration": true,
+    "skipLibCheck": true,    
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",   
     "baseUrl": ".",
     "paths": {
-      "@root/*": ["./*"]
+      "root/*": ["./*"],
+      "components/*": ["src/components/*"],
+      "common/*": ["src/components/common/*"],
+    
     }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src/**/*","src",  "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "src/*","src/**/*.ts","src/**/*.tsx","src/**/*.vue","tests/**/*.ts","tests/**/*.tsx"],   
+  "exclude": ["node_modules",".vscode" ],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "typeAcquisition": {
+		"enable": true
+	}
 }

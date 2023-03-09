@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import   Button  from './components/Button';
+import   { Button } from './components/common/Button';
 
-import viteLogo from '../../public/vite.svg';
+
 
 import './App.css';
 
@@ -12,7 +12,7 @@ const App = () => {
 		<div className="App">
 			<img src={viteLogo} alt="Vite Logo" />
 			<div>
-				<Button contenido={'Hello there!'}/>	
+				<Button >Hello there!</Button>'
 			</div>
 			<h1>LoginApp with React 18</h1>
 			<div className="card">

@@ -1,2 +1,2 @@
 export {default as GoogleButton} from './GoogleButton';
-// export {default as GoogleLogin} from './GoogleLogin';
+export {default as LoginGoogle} from './LoginGoogle';

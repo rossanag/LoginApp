@@ -1,8 +1,8 @@
 // import React from 'react';
-import { Button } from 'common/Button';
+import { Button } from './common/Button';
 import googleLogo from '../assets/icons/googleLogo.svg';
 
-/* 
+/* button props
 border: string;
   color: string;
   children?: ReactNode;
@@ -17,8 +17,10 @@ border: string;
   href?: string;
   target?: string;  
  */
-export default function LoginButton() {
+export default function GoogleButton( props:{onClick:()=> void}):JSX.Element {
 	return (
-		<div><Button color="" height="" width="" radius="" border="" onClick={)></Button></div>
+		<Button className='hover:bg-sky-800 focus:bg-sky-900' color="bg-sky-700" width="100" height="400" radius="20" onClick={props.onClick} >
+			<img src={googleLogo} alt="Google Logo" />Sign In
+		</Button>
 	);
 }

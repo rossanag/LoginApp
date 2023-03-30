@@ -1,30 +1,51 @@
-import axios from 'axios';
+import axios , {AxiosError} from 'axios';
 import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from './GoogleButton';
 
 
 const apiGoogle = axios.create({
-	baseURL: 'REACT_APP_GOOGLE_OAUTH_ENDPOINT',
+	baseURL: process.env.REACT_APP_GOOGLE_OAUTH_ENDPOINT,
 	timeout: 1000,	
 	headers: { Accept: 'application/json' },
 });
 
 
-const LoginGoogle = (token: CodeResponse) => {
+const getUser  = async(token: CodeResponse) => {
+	try {
+		const { data } = await apiGoogle.post(process.env.REACT_APP_GOOGLE_OAUTH_ENDPOINT as string,  token);
+		return data;
+	} catch (error) {
+		if (axios.isCancel(error)) {
+			// request cancelled
+		} else if (error instanceof AxiosError) {
+			throw error.response?.data || error.message;
+		}
+	}
+	return {};
+};
+
+const LoginGoogle = () => {
 
 	const googleLogin = useGoogleLogin({
-		onSuccess: async ({ code }) => {
-			const tokens = await apiGoogle.post('REACT_APP_GOOGLE_OAUTH_ENDPOINT', {  // http://localhost:3001/auth/google backend that will exchange the code
-				code,
-			});
-  
-			console.log(tokens);
+		onSuccess: async (code ) => {
+			try {
+				const user:unknown = await getUser(code );
+				console.log({user});
+			}
+			catch (error) {
+				console.log('Hubo un error al recuperar los datos del usuario');
+			}
+			
 		},
 		flow: 'auth-code',
 	});
 
-	<GoogleButton onClick={googleLogin}/>;
+	return (
+		<GoogleButton onClick={googleLogin}/>
+	);
 };
+
+
 
 apiGoogle.interceptors.response.use((response) => {
 	if (response.headers.authorization) {

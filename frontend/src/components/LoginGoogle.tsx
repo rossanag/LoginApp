@@ -1,7 +1,8 @@
 import axios , {AxiosError} from 'axios';
-import { CodeResponse, useGoogleLogin } from '@react-oauth/google';
-import GoogleButton from './GoogleButton';
+import { CodeResponse, useGoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
 
+
+import GoogleButton from './GoogleButton';
 
 const apiGoogle = axios.create({
 	baseURL: process.env.REACT_APP_GOOGLE_OAUTH_ENDPOINT,
@@ -24,7 +25,7 @@ const getUser  = async(token: CodeResponse) => {
 	return {};
 };
 
-const LoginGoogle = () => {
+const Login = () => {
 
 	const googleLogin = useGoogleLogin({
 		onSuccess: async (code ) => {
@@ -45,6 +46,15 @@ const LoginGoogle = () => {
 	);
 };
 
+const LoginGoogle = ():JSX.Element => {
+	return (
+		<>
+			<GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID as string}>
+				<Login/>
+			</GoogleOAuthProvider>		
+		</>				
+	);
+};	
 
 
 apiGoogle.interceptors.response.use((response) => {

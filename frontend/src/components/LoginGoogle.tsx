@@ -5,27 +5,30 @@ import { CodeResponse, useGoogleLogin, GoogleOAuthProvider  } from '@react-oauth
 import GoogleButton from './GoogleButton';
 
 const apiGoogle = axios.create({
-	baseURL: process.env.REACT_APP_GOOGLE_OAUTH_ENDPOINT,
+	baseURL: import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,	
 	timeout: 1000,	
 	headers: { Accept: 'application/json' },
 });
 
 
-const getUser  = async(token: CodeResponse) => {
-	try {
-		const { data } = await apiGoogle.post(process.env.REACT_APP_GOOGLE_OAUTH_ENDPOINT as string,  token);
-		return data;
-	} catch (error) {
-		if (axios.isCancel(error)) {
-			// request cancelled
-		} else if (error instanceof AxiosError) {
-			throw error.response?.data || error.message;
-		}
-	}
-	return {};
-};
-
 const Login = () => {
+
+	const getUser  = async(token: CodeResponse) => {
+		try {
+			
+			const { data } = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,  token);	
+			console.log('Datos del usuario ', data);	
+			return data;
+		} catch (error) {
+			if (axios.isCancel(error)) {
+				// request cancelled
+			} else if (error instanceof AxiosError) {
+				throw error.response?.data || error.message;
+			}
+		}
+		return {};
+	};
+	
 
 	const googleLogin = useGoogleLogin({
 		onSuccess: async (code ) => {
@@ -46,12 +49,15 @@ const Login = () => {
 	);
 };
 
-const LoginGoogle = ():JSX.Element => {
+const LoginGoogle = ():JSX.Element => {	
+	// const mode:boolean = (import.meta.env.MODE === 'development');
+	// if (mode) console.log('clientID Value ',import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID);	
 	return (
-		<>
-			<GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID as string}>
+		<> 		
+			<GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID as string}>
+				{/* <GoogleOAuthProvider clientId="742026568598-kpdtjfsrpegu6f74kld0qnnn53sfn6g0.apps.googleusercontent.com">			 */}
 				<Login/>
-			</GoogleOAuthProvider>		
+			</GoogleOAuthProvider>
 		</>				
 	);
 };	

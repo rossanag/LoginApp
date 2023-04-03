@@ -23,12 +23,6 @@ app.use(
   })
 );
 
-/* app.use(function (request, response, next) {
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
- */
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.json());
@@ -60,11 +54,32 @@ app.get('/oauth2callback', async (req, res) => {
 
 
 app.post('/oauth/google', async (req, res) => {
-  console.log("llegó al server ", req.body.code)
-  console.log("req.body ", req.body)
+  
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
   console.log(tokens);
-  
+
+  /* const userInfo = await axios.get(
+    'https://www.googleapis.com/oauth2/v3/userinfo',
+    { headers: { Authorization: `Bearer ${tokens}` } },
+  );
+
+  console.log('user info', userInfo);
+   */
+
+  if (tokens.access_token) {
+    axios
+        .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
+            headers: {
+                Authorization: `Bearer ${tokens.access_token}`,
+                Accept: 'application/json'
+            }
+        })
+        .then((res) => {
+            console.log('Datos de usuario', (res.data));
+        })
+        .catch((err) => console.log(err));
+  } 
+
   res.json(tokens);
 });
 

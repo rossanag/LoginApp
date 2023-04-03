@@ -15,7 +15,7 @@ const Login = () => {
 
 	const getUser  = async(token: CodeResponse) => {
 		try {
-			
+			console.log('token ', token);				
 			const { data } = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,  token);	
 			console.log('Datos del usuario ', data);	
 			return data;

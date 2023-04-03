@@ -58,14 +58,6 @@ app.post('/oauth/google', async (req, res) => {
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
   console.log(tokens);
 
-  /* const userInfo = await axios.get(
-    'https://www.googleapis.com/oauth2/v3/userinfo',
-    { headers: { Authorization: `Bearer ${tokens}` } },
-  );
-
-  console.log('user info', userInfo);
-   */
-
   if (tokens.access_token) {
     axios
         .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          

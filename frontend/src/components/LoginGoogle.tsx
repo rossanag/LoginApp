@@ -34,7 +34,7 @@ const Login = () => {
 		onSuccess: async (code ) => {
 			try {
 				const user:unknown = await getUser(code );
-				console.log({user});
+				console.log('usuario obtenido ', user);
 			}
 			catch (error) {
 				console.log('Hubo un error al recuperar los datos del usuario');

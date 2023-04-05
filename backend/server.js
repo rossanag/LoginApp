@@ -18,7 +18,7 @@ app.use(
     // origin: [process.env.URL_ORIGIN],
    origin: '*',
     methods: "GET,POST,PUT,DELETE,OPTIONS",
-    credentials:true,            //access-control-allow-credentials:true
+    credentials:true,         
     optionSuccessStatus:200
   })
 );
@@ -56,11 +56,17 @@ app.get('/oauth2callback', async (req, res) => {
 app.post('/oauth/google', async (req, res) => {
   
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
-  console.log(tokens);
-
+  
+  const objTokens = {
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
+    id_token: tokens.id_token,
+    expiry_date: tokens.expiry_date
+  };
+  
+  let user = {}  
   if (tokens.access_token) {
-    axios
-        .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
+    await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
             headers: {
                 Authorization: `Bearer ${tokens.access_token}`,
                 Accept: 'application/json'
@@ -68,11 +74,27 @@ app.post('/oauth/google', async (req, res) => {
         })
         .then((res) => {
             console.log('Datos de usuario', (res.data));
+            user = {
+              tokens: objTokens,
+              email: res.data.email,
+              name: res.data.name,
+              given_name:res.data.given_name,
+              family_name:res.data.family_name,
+              picture: res.data.picture,
+            }
+            
+            console.info('\nAccess al objeto User formado', user);              
+            
         })
         .catch((err) => console.log(err));
   } 
 
-  res.json(tokens);
+  console.log('\nObjeto de Usuario ', user)
+  res.json(user);
+  /* console.log('user2 ', user2)
+  const user = user2
+  console.info('\nUsuario del objeto', user);  
+  res.json(user); */
 });
 
 app.listen(process.env.PORT, () => console.log(`Server is running`));

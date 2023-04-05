@@ -53,48 +53,79 @@ app.get('/oauth2callback', async (req, res) => {
 });
 
 
-app.post('/oauth/google', async (req, res) => {
-  
-  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
-  
+const getUser = async (tokens) => {
   const objTokens = {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     id_token: tokens.id_token,
     expiry_date: tokens.expiry_date
-  };
-  
+  }
+
   let user = {}  
   if (tokens.access_token) {
-    await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
+    try {
+        let resp = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
             headers: {
                 Authorization: `Bearer ${tokens.access_token}`,
                 Accept: 'application/json'
             }
-        })
-        .then((res) => {
-            console.log('Datos de usuario', (res.data));
-            user = {
-              tokens: objTokens,
-              email: res.data.email,
-              name: res.data.name,
-              given_name:res.data.given_name,
-              family_name:res.data.family_name,
-              picture: res.data.picture,
-            }
+        })  
+        
+        user = {
+          ...resp.data,
+          objTokens
+        }                                                                
             
-            console.info('\nAccess al objeto User formado', user);              
-            
-        })
-        .catch((err) => console.log(err));
+    }
+    catch(err) { console.log(err) };
   } 
+ 
+  return user;
 
-  console.log('\nObjeto de Usuario ', user)
-  res.json(user);
-  /* console.log('user2 ', user2)
-  const user = user2
-  console.info('\nUsuario del objeto', user);  
-  res.json(user); */
+}
+
+
+app.post('/oauth/google', async (req, res) => {
+  
+  const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+
+  try {
+    const user = await getUser(tokens);
+    console.log('\nObjeto de Usuario ', user)
+    res.json(user); 
+  }
+  catch(err) {console.log('Error al enviar usuario', err)}
+  
+  
+  /* const objTokens = {
+    access_token: tokens.access_token,
+    refresh_token: tokens.refresh_token,
+    id_token: tokens.id_token,
+    expiry_date: tokens.expiry_date
+  }
+
+  let user = {}  
+  if (tokens.access_token) {
+    try {
+        let resp = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
+            headers: {
+                Authorization: `Bearer ${tokens.access_token}`,
+                Accept: 'application/json'
+            }
+        })  
+        
+        user = {
+          ...resp.data,
+          objTokens
+        }                                                                
+            
+    }
+    catch(err) { console.log(err) };
+    res.json(user); 
+  } 
+  
+  */
+  
 });
 
 app.listen(process.env.PORT, () => console.log(`Server is running`));

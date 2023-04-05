@@ -94,38 +94,11 @@ app.post('/oauth/google', async (req, res) => {
     console.log('\nObjeto de Usuario ', user)
     res.json(user); 
   }
-  catch(err) {console.log('Error al enviar usuario', err)}
-  
-  
-  /* const objTokens = {
-    access_token: tokens.access_token,
-    refresh_token: tokens.refresh_token,
-    id_token: tokens.id_token,
-    expiry_date: tokens.expiry_date
+  catch(err) {
+    console.log('Error al enviar usuario', err)
+    res.status(500).send(err.message)
   }
-
-  let user = {}  
-  if (tokens.access_token) {
-    try {
-        let resp = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
-            headers: {
-                Authorization: `Bearer ${tokens.access_token}`,
-                Accept: 'application/json'
-            }
-        })  
-        
-        user = {
-          ...resp.data,
-          objTokens
-        }                                                                
-            
-    }
-    catch(err) { console.log(err) };
-    res.json(user); 
-  } 
-  
-  */
-  
+      
 });
 
 app.listen(process.env.PORT, () => console.log(`Server is running`));

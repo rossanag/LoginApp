@@ -5,7 +5,7 @@ const express = require("express");
 require('dotenv').config();
 const cors = require("cors");
 
-const { OAuth2Client } = require("google-auth-library");
+const { OAuth2Client, UserRefreshClient } = require("google-auth-library");
 const app = express();
 
 const axios = require('axios');
@@ -53,36 +53,61 @@ app.get('/oauth2callback', async (req, res) => {
 });
 
 
+async function verifyGoogleToken(token) {
+  try {
+    const ticket = await oAuth2Client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    console.log('ticket obtenido al verificar ',ticket)
+    return { payload: ticket.getPayload() };
+  } catch (error) {
+      return { error: "Invalid user detected. Please try again" };
+  }
+}
+
+
 const getUser = async (tokens) => {
-  const objTokens = {
+  const gtokens = {
     access_token: tokens.access_token,
     refresh_token: tokens.refresh_token,
     id_token: tokens.id_token,
-    expiry_date: tokens.expiry_date
-  }
+    expiry_date : tokens.expiry_date
+  } 
 
-  let user = {}  
+  let user = {}   
   if (tokens.access_token) {
     try {
+
         let resp = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokens.access_token}`, {          
             headers: {
                 Authorization: `Bearer ${tokens.access_token}`,
-                Accept: 'application/json'
+                Accept: 'application/json',               
             }
-        })  
+        })                         
         
         user = {
           ...resp.data,
-          objTokens
+          gtokens         
         }                                                                
-            
-    }
+        console.log('user in server ', user);                  
+    }    
     catch(err) { console.log(err) };
   } 
  
   return user;
 
 }
+
+app.post('/auth/google/refresh-token', async (req, res) => {
+  const user = new UserRefreshClient(
+    clientId,
+    clientSecret,
+    req.body.refreshToken,
+  );
+  const { credentials } = await user.refreshAccessToken(); // optain new tokens
+  res.json(credentials);
+})
 
 
 app.post('/oauth/google', async (req, res) => {
@@ -92,7 +117,9 @@ app.post('/oauth/google', async (req, res) => {
   try {
     const user = await getUser(tokens);
     console.log('\nObjeto de Usuario ', user)
-    res.json(user); 
+  
+    res.json(user);     
+    
   }
   catch(err) {
     console.log('Error al enviar usuario', err)

@@ -101,8 +101,8 @@ const getUser = async (tokens) => {
 
 app.post('/auth/google/refresh-token', async (req, res) => {
   const user = new UserRefreshClient(
-    clientId,
-    clientSecret,
+    import.meta.GOOGLE_CLIENT_ID,
+    import.meta.GOOGLE_CLIENT_SECRET,
     req.body.refreshToken,
   );
   const { credentials } = await user.refreshAccessToken(); // optain new tokens

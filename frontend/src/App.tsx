@@ -1,20 +1,15 @@
-import { LoginGoogle } from './components';
+// import { LoginGoogle } from './components';
+import LandingPage from './screens/LandingPage';
 import './App.css';
 
+
 const App = () => {	
-
-	// const onClick = () => { console.log('Hola!'); };
-
+	
 	return (
 		<div className="App">						
 			<h1>LoginApp with React 18</h1>
-			<div className="card">				
-				{/* 				<GoogleButton onClick={onClick}/> */}
-				<LoginGoogle/>
-
-				<p>
-		Edit <code>src/App.tsx</code> and save to test automatic changes
-				</p>
+			<div className="card">								
+				<LandingPage/>	
 			</div>		
 		</div>
 	);

@@ -1,7 +1,7 @@
 import {useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import LoginGoogle from './LoginGoogle';
+// import LoginGoogle from './LoginGoogle';
 
 import { User } from '../types';
 
@@ -35,7 +35,13 @@ const Navbar = () => {
 							{/* 	<p className="border w-full h-full px-4 centered">Login</p>  */}
 							
 						</NavLink>
-					}						
+					}					
+					<NavLink
+						to="/home"
+						className={({ isActive }) => (isActive ? activeLink : normalLink)}
+					>
+						<p className="border w-full h-full px-4 centered">Home</p>
+					</NavLink>											
 					<NavLink
 						to="/profile"
 						className={({ isActive }) => (isActive ? activeLink : normalLink)}

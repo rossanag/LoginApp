@@ -75,8 +75,9 @@ const Login = () => {
 			console.log('picture en useEffect ', user?.picture);							
 			localStorage.setItem('user', JSON.stringify(user));														
 			setLoading(false);				
-			navigate('/');			
-			navigate(0);			
+			navigate('/home', {replace: true});			
+			// navigate(0);			
+			//return redirect(')
 		}	
 		
 	// eslint-disable-next-line react-hooks/exhaustive-deps

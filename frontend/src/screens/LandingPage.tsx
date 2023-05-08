@@ -1,5 +1,5 @@
 //import { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet} from 'react-router-dom';
 
 import About from './About';
 import Home from './Home';
@@ -17,42 +17,45 @@ const LandingPage = () => {
 
 	console.log('User en landing page ', user);
 
-	const Dashboard = () => {		
+	
+	const MainBoard = () => {
 		return (
-			<>			
+			<>
 				{ user && <Navbar />}
-				<Routes>										
-					<Route path="/" index element={ user ? <Home/> : <LoginGoogle />} />
+				<Routes>				
+					<Route path="/" element={ (user) ?  <Navigate to="/home"/> : <LoginGoogle />} /> 
 					<Route
-						path="/about"
+						path="/home"
 						element={<ProtectedRoute>
-							<About />
-						</ProtectedRoute>} />
+							<Home />
+						</ProtectedRoute>} 
+					/>					
 					<Route
 						path="/profile"
 						element={<ProtectedRoute>
 							<Profile />
-						</ProtectedRoute>} />					
-					{(user) &&	
+						</ProtectedRoute>} />										
+					<Route
+						path="/about"
+						element={<ProtectedRoute>
+							<About />
+						</ProtectedRoute>} />	
 					<Route
 						path="/logout"
 						element={<ProtectedRoute>
 							<Logout />
 						</ProtectedRoute>} 
-					/>								
-					}
-					<Route
-						path="*"
-						element={<Navigate to="/" />}
 					/>
-				</Routes>
+					<Route path="*" element={<Navigate to="/" />}/>				
+				</Routes> 
 			</>
 		);
 	};
-	
+
+		
 	return (			
 		<BrowserRouter>							
-			<Dashboard />
+			<MainBoard />
 		</BrowserRouter>		
 		
 	);

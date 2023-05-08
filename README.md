@@ -2,11 +2,14 @@
 
 ### In progress
 
-It began as project to understand OAuth2 protocol for authentication, but as things were caming I decided to go further to the cover different concepts involved when programming a webapp. 
+
+##### Worth to clarify : 
+
+It began as project to understand OAuth2 protocol for authentication, but as things were caming I decided to go further to cover the different concepts involved in a webapp development.
 Therefore the name of this repository (LoginApp) is misleading, since it will be a more complete fullstack app.
 
 
-I will summarize the aspects that are involved, to delve into them later:
+I will summarize the aspects that are involved, **to delve into them later**:
 
 - [OAuth2](https://oauth.net/2/) protocol for authentication
 - Global state with Redux
@@ -23,7 +26,7 @@ I will summarize the aspects that are involved, to delve into them later:
 
 ## Introduction
 
-It is a React 18 App created with Vite. It uses Typescript and Tailwindcss. The skeleton of this project is based on my [react-vite repository](https://github.com/rossanag/react-vite). There you'll find all the installations and configuration I needed.
+It is a React 18 App created with Vite. It uses Typescript and Tailwindcss. The skeleton of this project is based on my [react-vite repository](https://github.com/rossanag/react-vite). There you'll find all the installations and configuration I needed to have a ready setup.
 
 Operative System: Ubuntu 22.04 LTS
 

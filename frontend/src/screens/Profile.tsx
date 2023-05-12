@@ -6,14 +6,14 @@ const Profile = () => {
 
 	return (
 		<>
-			<h2 className="text-center m-4 text-lg font-medium">Profile</h2>;
+			<h2 className="text-center m-4 text-lg font-medium">Profile</h2>
 			<div className='flex-row items-center justify-center'>
-				<p> Name: {user.name}</p>;
-				<p> Email: {user.email}</p>;
+				<p> Name: {user.name}</p>
+				<p> Email: {user.email}</p>
 				<div className='mt-2'>
 					<img src={user?.picture} alt="User img"></img>
 				</div>
-			</div>;
+			</div>
 		</>
 	);
 };

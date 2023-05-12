@@ -53,11 +53,13 @@ const Login = () => {
 		onSuccess: async (code ) => {				
 			try {
 				const userInfo = await getUser(code );
-				setCodeResponse(code);
+				setCodeResponse(code);			
 				setUser(userInfo);	
-				console.log('user picture en googleLogin ', user?.picture);
+				console.log('user en googleLogin ', userInfo);
+				// console.log('user picture en googleLogin ', userInfo.picture);
 				/* localStorage.setItem('user', JSON.stringify(userInfo));														
 				setLoading(false);				
+				return <Navigate to="/home" replace={true} />;
 				navigate('/');			
 				navigate(0);						  */
 			}
@@ -72,12 +74,12 @@ const Login = () => {
 	useEffect(() => {		
 		console.log('user en useEffect ', user);
 		if (user) {		
-			console.log('picture en useEffect ', user?.picture);							
-			localStorage.setItem('user', JSON.stringify(user));														
+			console.log('user en useEffect dentro del if', user);
+			localStorage.setItem('user', JSON.stringify(user));																	
 			setLoading(false);				
-			navigate('/home', {replace: true});			
+			navigate('home', {replace: true});			
 			// navigate(0);			
-			//return redirect(')
+			
 		}	
 		
 	// eslint-disable-next-line react-hooks/exhaustive-deps

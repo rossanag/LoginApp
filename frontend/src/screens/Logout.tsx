@@ -13,8 +13,8 @@ const Logout = () => {
 		
 	useEffect(() => {
 		navigate('/');
-		navigate(0);
-	}, [navigate]);
+		// navigate(0);
+	}, []);
 
 	return <div />;
 };

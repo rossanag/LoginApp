@@ -28,8 +28,8 @@ Operative System: Ubuntu 22.04 LTS
 
 ### Run example
 
-**backend**  : the backend code folder. To run the server, get into this carpet and type: `npm start`
-**frontend** : the frontend code folder. Get into this folder and type to launch the webapp: `npm run dev`
+- **backend**  : the backend code folder. To run the server, get into this carpet and type: `npm start`
+- **frontend** : the frontend code folder. Get into this folder and type to launch the webapp: `npm run dev`
 
 ### Libraries/plugins added to this project
 

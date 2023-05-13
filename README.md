@@ -35,14 +35,14 @@ Operative System: Ubuntu 22.04 LTS
 
 #### Frontend
 
-- [Axios] (https://axios-http.com)
+- [Axios](https://axios-http.com)
 - [React router](https://reactrouter.com/en/main)
 - [Redux](https://react-redux.js.org/)
 - [React OAuth2](https://www.npmjs.com/package/@react-oauth/google)
 
 #### Backend
 
-- [Axios] (https://axios-http.com)
+- [Axios](https://axios-http.com)
 - [NodeJS](https://nodejs.org)
 - [dotenv](https://www.npmjs.com/package/dotenv)
 - [Express](https://expressjs.com)

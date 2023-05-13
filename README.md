@@ -1,6 +1,6 @@
 # React 18 LoginApp
 
-### In progress
+### Work in progress
 
 
 ##### Worth to clarify : 
@@ -26,11 +26,29 @@ I will summarize the aspects that are involved, **to delve into them later**:
 
 ## Introduction
 
-It is a React 18 App created with Vite. It uses Typescript and Tailwindcss. The skeleton of this project is based on my [react-vite repository](https://github.com/rossanag/react-vite). There you'll find all the installations and configuration I needed to have a ready setup.
+This is a React 18 App created with Vite. It uses Typescript and Tailwindcss. The skeleton of this project is based on my [react-vite repository](https://github.com/rossanag/react-vite). There you'll find all the installations and configuration I needed to have a ready setup from scratch.
 
 Operative System: Ubuntu 22.04 LTS
 
-### Libraries added
+### Run example
 
+**backend**  : the backend code folder. To run the server, get into this carpet and type: `npm start`
+**frontend** : the frontend code folder. Get into this folder and type to launch the webapp: `npm run dev`
+
+
+### Libraries/plugins added
+
+#### Frontend
+ [Axios] (https://axios-http.com/docs/intro)
  [React router](https://reactrouter.com/en/main)
  [Redux](https://react-redux.js.org/)
+ [React OAuth2](https://www.npmjs.com/package/@react-oauth/google)
+
+#### Backend
+[Axios] (https://axios-http.com/docs/intro)
+[NodeJS](https://nodejs.org)
+[dotenv](https://www.npmjs.com/package/dotenv)
+[Express](https://expressjs.com)
+[Cors](https://expressjs.com/en/resources/middleware/cors.html)
+[Google Auth Library](https://www.npmjs.com/package/google-auth-library)
+

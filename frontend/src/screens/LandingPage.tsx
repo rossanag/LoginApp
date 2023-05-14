@@ -37,8 +37,13 @@ const LandingPage = () => {
 		console.log('user en MainBoard ', user);
 		return (
 			<>				
-				<Routes>	
-					<Route element={<Dashboard /> }>
+				<Routes>											
+					<Route element={ <Dashboard /> }>
+						<Route
+							path="index.html"
+							element={user ? <ProtectedRoute>
+								<Home />
+							</ProtectedRoute> :<Navigate to = "/"/> } />										
 						<Route
 							path="home"
 							element={<ProtectedRoute>
@@ -60,13 +65,13 @@ const LandingPage = () => {
 								<Logout />
 							</ProtectedRoute>} 
 						/>
-						<Route path="*" element={<NotFound/>}/>
-					</Route>																				
+						{/* <Route path="*" element={<NotFound/>}/> */}
+					</Route>
 					<Route element = {<LoginDash/>}>
 						<Route path="/" element={ user ? <Navigate to = "/home"/> : <LoginGoogle /> }/>
-					</Route>											
+					</Route>
+					<Route path="*" element={<NotFound/>}/>						
 					
-					<Route path="*" element={<NotFound/>}/>			
 				</Routes> 
 			</>
 		);
@@ -80,6 +85,5 @@ const LandingPage = () => {
 		
 	);
 };
-
 
 export default LandingPage;

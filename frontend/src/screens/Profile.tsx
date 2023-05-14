@@ -11,7 +11,7 @@ const Profile = () => {
 				<p> Name: {user.name}</p>
 				<p> Email: {user.email}</p>
 				<div className='mt-2'>
-					<img src={user?.picture} alt="User img"></img>
+					<img src={user?.picture } referrerPolicy='no-referrer' alt="User img"></img>
 				</div>
 			</div>
 		</>

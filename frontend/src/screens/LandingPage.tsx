@@ -5,7 +5,7 @@ import About from './About';
 import Home from './Home';
 import NotFound from './NotFound';
 import Logout from './Logout';
-import { LoginGoogle, Navbar, ProtectedRoute} from '../components';
+import { LoginGoogle, Navbar, ProtectedRoute, AnonymousRoute} from '../components';
 import Profile from './Profile';
 
 import {User} from './../types';
@@ -32,6 +32,7 @@ const LandingPage = () => {
 	};
 
 	const LoginDash = () => <Outlet />;
+
 	
 	const MainBoard = () => {
 		console.log('user en MainBoard ', user);
@@ -43,7 +44,10 @@ const LandingPage = () => {
 							path="index.html"
 							element={user ? <ProtectedRoute>
 								<Home />
-							</ProtectedRoute> :<Navigate to = "/"/> } />										
+							</ProtectedRoute> :<Navigate to = "/"/> } />								
+						<Route
+							path="index.html"
+							element={user ? <Navigate to = "/home"/> :<LoginGoogle/> } />																										
 						<Route
 							path="home"
 							element={<ProtectedRoute>
@@ -64,11 +68,12 @@ const LandingPage = () => {
 							element={<ProtectedRoute>
 								<Logout />
 							</ProtectedRoute>} 
-						/>
+						/>						
 						{/* <Route path="*" element={<NotFound/>}/> */}
 					</Route>
 					<Route element = {<LoginDash/>}>
-						<Route path="/" element={ user ? <Navigate to = "/home"/> : <LoginGoogle /> }/>
+						{/* <Route path="/" element={ user ? <Navigate to = "/home"/> : <LoginGoogle /> }/> 						 */}
+						<Route path="/" element={ <AnonymousRoute><LoginGoogle /></AnonymousRoute> }/>
 					</Route>
 					<Route path="*" element={<NotFound/>}/>						
 					
@@ -76,11 +81,10 @@ const LandingPage = () => {
 			</>
 		);
 	};
-
 		
 	return (			
 		<BrowserRouter>							
-			<MainBoard />
+			<MainBoard />   		
 		</BrowserRouter>		
 		
 	);

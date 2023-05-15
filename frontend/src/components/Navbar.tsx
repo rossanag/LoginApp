@@ -37,7 +37,7 @@ const Navbar = () => {
 						</NavLink>
 					}					
 					<NavLink
-						to="/home"
+						to="/home" 
 						className={({ isActive }) => (isActive ? activeLink : normalLink)}
 					>
 						<p className="border w-full h-full px-4 centered">Home</p>

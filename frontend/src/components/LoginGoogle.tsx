@@ -55,13 +55,7 @@ const Login = () => {
 				const userInfo = await getUser(code );
 				setCodeResponse(code);			
 				setUser(userInfo);	
-				console.log('user en googleLogin ', userInfo);
-				// console.log('user picture en googleLogin ', userInfo.picture);
-				/* localStorage.setItem('user', JSON.stringify(userInfo));														
-				setLoading(false);				
-				return <Navigate to="/home" replace={true} />;
-				navigate('/');			
-				navigate(0);						  */
+				console.log('user en googleLogin ', userInfo);			
 			}
 			catch (error) {
 				console.log('Hubo un error al recuperar los datos del usuario ', error);
@@ -77,9 +71,7 @@ const Login = () => {
 			console.log('user en useEffect dentro del if', user);
 			localStorage.setItem('user', JSON.stringify(user));																	
 			setLoading(false);				
-			navigate('home', {replace: true});			
-			// navigate(0);			
-			
+			navigate('home', {replace: true});									
 		}	
 		
 	// eslint-disable-next-line react-hooks/exhaustive-deps

@@ -25,14 +25,12 @@ const LandingPage = () => {
 			<>
 				<Navbar />
 				<Outlet />
-			</>					
-				
+			</>									
 		);
 				
 	};
 
 	const LoginDash = () => <Outlet />;
-
 	
 	const MainBoard = () => {
 		console.log('user en MainBoard ', user);

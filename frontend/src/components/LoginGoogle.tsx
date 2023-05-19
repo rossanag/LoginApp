@@ -5,15 +5,16 @@ import { CodeResponse, useGoogleLogin, GoogleOAuthProvider  } from '@react-oauth
 
 import GoogleButton from './GoogleButton';
 
+import { apiGoogle }  from '../api/apiAxios';
 import {User} from '../types';
 
-
+/* 
 const apiGoogle = axios.create({
 	baseURL: import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,	
 	timeout: 6000,	
 	headers: { Accept: 'application/json' },
 });
-
+ */
 const Login = () => {
 	
 	const [user, setUser] = useState<User | null>(null);	
@@ -24,6 +25,7 @@ const Login = () => {
 	const navigate = useNavigate();
 
 	const getUser = async(token: CodeResponse): Promise<User> => {		
+		const controller = new AbortController();
 		try {			
 			setLoading(true);
 			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,  token);					
@@ -42,13 +44,16 @@ const Login = () => {
 			return user as User;
 		} catch (error) {
 			if (axios.isCancel(error)) {
-				// request cancelled
+				// request cancelled							
+				controller.abort();	
+				setError(true);
 			} else if (error instanceof AxiosError) {
 				throw error.response?.data || error.message;
 			}
 			setError(true);		
 		}		
 		return {} as User;
+		
 	};
 		
 	const googleLogin = useGoogleLogin({				
@@ -106,7 +111,7 @@ const LoginGoogle = ():JSX.Element => {
 	);
 };	
 
-const refreshToken = async () => {
+/* const refreshToken = async () => {
 	const user: User = JSON.parse(localStorage.getItem('user') as string);
 	const refreshToken = user.gtokens.refresh_token;	
 	
@@ -119,8 +124,8 @@ const refreshToken = async () => {
 
 	return data;
 };
-
-apiGoogle.interceptors.response.use(
+ */
+/* apiGoogle.interceptors.response.use(
 	(response) => {		
 		return response;
 
@@ -139,15 +144,5 @@ apiGoogle.interceptors.response.use(
 			// end refresh
 		}
 	});
-  
-/* apiGoogle.interceptors.request.use((request) => {
-	console.log('interceptor request ', request.data);
-	const token = localStorage.getItem('token');
-	if (token) {
-		request.headers.common.Authorization = token;
-	}
-	return request;
-	
-}); */
-
+ */  
 export default LoginGoogle;

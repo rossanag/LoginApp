@@ -1,4 +1,3 @@
-//import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet} from 'react-router-dom';
 
 import About from './About';
@@ -19,15 +18,13 @@ const LandingPage = () => {
 
 	console.log('User en landing page ', user);
 
-	const Dashboard = () => {
-		
+	const Dashboard = () => {		
 		return (
 			<>
 				<Navbar />
 				<Outlet />
 			</>									
-		);
-				
+		);				
 	};
 
 	const LoginDash = () => <Outlet />;
@@ -66,11 +63,9 @@ const LandingPage = () => {
 							element={<ProtectedRoute>
 								<Logout />
 							</ProtectedRoute>} 
-						/>						
-						{/* <Route path="*" element={<NotFound/>}/> */}
+						/>											
 					</Route>
-					<Route element = {<LoginDash/>}>
-						{/* <Route path="/" element={ user ? <Navigate to = "/home"/> : <LoginGoogle /> }/> 						 */}
+					<Route element = {<LoginDash/>}>						
 						<Route path="/" element={ <AnonymousRoute><LoginGoogle /></AnonymousRoute> }/>
 					</Route>
 					<Route path="*" element={<NotFound/>}/>						

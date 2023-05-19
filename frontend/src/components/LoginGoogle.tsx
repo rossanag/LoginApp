@@ -8,7 +8,6 @@ import GoogleButton from './GoogleButton';
 import {User} from '../types';
 
 
-
 const apiGoogle = axios.create({
 	baseURL: import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,	
 	timeout: 6000,	
@@ -23,7 +22,6 @@ const Login = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const navigate = useNavigate();
-	
 
 	const getUser = async(token: CodeResponse): Promise<User> => {		
 		try {			
@@ -35,7 +33,11 @@ const Login = () => {
 			setError(false);			
 
 			console.log('user en getUser ', user);
-			console.log('gtokens en getUser ', gtokens);			
+			console.log('gtokens en getUser ', gtokens);	
+
+			
+			axios.defaults.headers.common['Authorization'] = 'Bearer ' + gtokens['access_token'];
+			// after any request we have the user authenticated with this sentences
 												
 			return user as User;
 		} catch (error) {
@@ -104,6 +106,19 @@ const LoginGoogle = ():JSX.Element => {
 	);
 };	
 
+const refreshToken = async () => {
+	const user: User = JSON.parse(localStorage.getItem('user') as string);
+	const refreshToken = user.gtokens.refresh_token;	
+	
+	const { data } = await axios.post(
+		'/auth/google/refresh-token',
+		{
+			refreshToken: refreshToken,
+		},
+	);
+
+	return data;
+};
 
 apiGoogle.interceptors.response.use(
 	(response) => {		
@@ -112,8 +127,16 @@ apiGoogle.interceptors.response.use(
 	}, (error) => {
 		console.log('error ', error);
 		if(error.response.status === 403){
-			console.log('error 403');
+			console.log('error 403');			
+		}
+		if(error.response.status === 401){
+			console.log('error 401');
 			// refesh token goes here
+			(async () => {
+				const data = await refreshToken();
+				axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
+			})();			
+			// end refresh
 		}
 	});
   

@@ -3,9 +3,9 @@ import axios , {AxiosError} from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { CodeResponse, useGoogleLogin, GoogleOAuthProvider  } from '@react-oauth/google';
 
-import GoogleButton from './GoogleButton';
-
 import { apiGoogle }  from '../api/apiAxios';
+import GoogleButton from './GoogleButton';
+import { useLocalStorage } from '../hooks';
 import {User} from '../types';
 
 /* 
@@ -17,7 +17,8 @@ const apiGoogle = axios.create({
  */
 const Login = () => {
 	
-	const [user, setUser] = useState<User | null>(null);	
+	// const [user, setUser] = useState<User | null>(null);	
+	const [user, setUser] = useLocalStorage<User | null>('user', null);	
 	const [, setCodeResponse] = useState<CodeResponse | null >();		
 	const [error, setError] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -26,9 +27,10 @@ const Login = () => {
 
 	const getUser = async(token: CodeResponse): Promise<User> => {		
 		const controller = new AbortController();
+
 		try {			
 			setLoading(true);
-			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,  token);					
+			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,  token, { signal: controller.signal});					
 			
 			const user = data.data;
 			const gtokens = data.data.gtokens;
@@ -72,11 +74,13 @@ const Login = () => {
 		flow: 'auth-code',
 	});
 
-	useEffect(() => {		
+	useEffect(() => {	
+		
 		console.log('user en useEffect ', user);
 		if (user) {		
 			console.log('user en useEffect dentro del if', user);
-			localStorage.setItem('user', JSON.stringify(user));																	
+			// localStorage.setItem('user', JSON.stringify(user));																	
+			setUser(user); // this is for the hook useLocalStorage
 			setLoading(false);				
 			navigate('home', {replace: true});									
 		}	
@@ -110,39 +114,5 @@ const LoginGoogle = ():JSX.Element => {
 		</>				
 	);
 };	
-
-/* const refreshToken = async () => {
-	const user: User = JSON.parse(localStorage.getItem('user') as string);
-	const refreshToken = user.gtokens.refresh_token;	
-	
-	const { data } = await axios.post(
-		'/auth/google/refresh-token',
-		{
-			refreshToken: refreshToken,
-		},
-	);
-
-	return data;
-};
- */
-/* apiGoogle.interceptors.response.use(
-	(response) => {		
-		return response;
-
-	}, (error) => {
-		console.log('error ', error);
-		if(error.response.status === 403){
-			console.log('error 403');			
-		}
-		if(error.response.status === 401){
-			console.log('error 401');
-			// refesh token goes here
-			(async () => {
-				const data = await refreshToken();
-				axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
-			})();			
-			// end refresh
-		}
-	});
- */  
+ 
 export default LoginGoogle;

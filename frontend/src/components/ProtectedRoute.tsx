@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
+import { useLocalStorage } from '../hooks';
 import {User} from '../types';
 
 interface IProps {
@@ -7,7 +8,8 @@ interface IProps {
 }
 
 const ProtectedRoute = ( {children}: IProps ): JSX.Element => {
-	const user:User = JSON.parse(localStorage.getItem('user') as string);
+	const [user,] = useLocalStorage<User | null>('user',null);
+	// const user:User = JSON.parse(localStorage.getItem('user') as string);
 
 	console.log('protected route user', user);
     

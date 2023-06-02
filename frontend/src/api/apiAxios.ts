@@ -8,31 +8,6 @@ export const apiGoogle = axios.create({
 	headers: { Accept: 'application/json' },
 });
 
-apiGoogle.interceptors.response.use (
-	(response) => {		
-		return response;
-
-	}, (error) => {
-		console.log('error ', error);
-		if(error.response.status === 403){
-			console.log('error 403');			
-		}
-		if(error.response.status === 401){
-			console.log('error 401');
-			// refesh token goes here
-			(async () => {
-				try {
-					const data = await refreshToken();
-					axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
-				}
-				catch (error) {
-					console.log('error ', error);
-				}
-			})();			
-			// end refresh
-		}
-	});
-
 export const refreshToken = async () => {
 	const controller = new AbortController();
 
@@ -58,7 +33,7 @@ export const refreshToken = async () => {
 	}
 };
 
-apiGoogle.interceptors.response.use(
+apiGoogle.interceptors.response.use (
 	(response) => {		
 		return response;
 
@@ -71,13 +46,17 @@ apiGoogle.interceptors.response.use(
 			console.log('error 401');
 			// refesh token goes here
 			(async () => {
-				const data = await refreshToken();
-				axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
+				try {
+					const data = await refreshToken();
+					axios.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
+				}
+				catch (error) {
+					console.log('error ', error);
+				}
 			})();			
 			// end refresh
 		}
 	});
-
 
 
 

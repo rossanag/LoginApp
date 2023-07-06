@@ -8,11 +8,14 @@ import { LoginGoogle, Navbar, ProtectedRoute, AnonymousRoute} from '../component
 import Profile from './Profile';
 
 import {User} from './../types';
+import { useLocalStorage } from '../hooks';
 
 
 const LandingPage = () => {
 	
-	const user : User = JSON.parse(localStorage.getItem('user' ) as string) ;
+	// const user : User = JSON.parse(localStorage.getItem('user' ) as string) ;
+
+	const [user, ] = useLocalStorage<User | null>('user', null);	
 	
 	if (!user) console.log('No hay user en landing page');
 
@@ -64,6 +67,8 @@ const LandingPage = () => {
 								<Logout />
 							</ProtectedRoute>} 
 						/>											
+
+						{/* <Route path="*" element={<NotFound/>}/>  */}
 					</Route>
 					<Route element = {<LoginDash/>}>						
 						<Route path="/" element={ <AnonymousRoute><LoginGoogle /></AnonymousRoute> }/>

@@ -8,13 +8,7 @@ import GoogleButton from './GoogleButton';
 import { useLocalStorage } from '../hooks';
 import {User} from '../types';
 
-/* 
-const apiGoogle = axios.create({
-	baseURL: import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,	
-	timeout: 6000,	
-	headers: { Accept: 'application/json' },
-});
- */
+
 const Login = () => {
 	
 	// const [user, setUser] = useState<User | null>(null);	
@@ -30,7 +24,7 @@ const Login = () => {
 
 		try {			
 			setLoading(true);
-			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT,  token, { signal: controller.signal});					
+			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT as string,  token, { signal: controller.signal});									
 			
 			const user = data.data;
 			const gtokens = data.data.gtokens;
@@ -38,7 +32,6 @@ const Login = () => {
 
 			console.log('user en getUser ', user);
 			console.log('gtokens en getUser ', gtokens);	
-
 			
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + gtokens['access_token'];
 			// after any request we have the user authenticated with this sentences
@@ -78,8 +71,7 @@ const Login = () => {
 		
 		console.log('user en useEffect ', user);
 		if (user) {		
-			console.log('user en useEffect dentro del if', user);
-			// localStorage.setItem('user', JSON.stringify(user));																	
+			console.log('user en useEffect dentro del if', user);		
 			setUser(user); // this is for the hook useLocalStorage
 			setLoading(false);				
 			navigate('home', {replace: true});									

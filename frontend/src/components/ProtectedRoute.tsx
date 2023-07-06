@@ -8,8 +8,7 @@ interface IProps {
 }
 
 const ProtectedRoute = ( {children}: IProps ): JSX.Element => {
-	const [user,] = useLocalStorage<User | null>('user',null);
-	// const user:User = JSON.parse(localStorage.getItem('user') as string);
+	const [user,] = useLocalStorage<User | null>('user',null);	
 
 	console.log('protected route user', user);
     
@@ -18,8 +17,7 @@ const ProtectedRoute = ( {children}: IProps ): JSX.Element => {
 		
 	}
 	console.log('children ');
-	return children ? children : <Outlet/>;	
-	//return children;
+	return children ? children : <Outlet/>;		
 };
 
 export default ProtectedRoute;

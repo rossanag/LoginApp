@@ -7,10 +7,17 @@ type Setter<T> = React.Dispatch<React.SetStateAction<T | undefined>>;
 function useLocalStorage<T>(
 	key: string,
 	defaultValue: T,	
-): [T, Setter<T>] {
+): [T, Setter<T>, () => void] {
 	
 	const rawValueRef = useRef<string | null>(null);
 
+	const clear = () => {
+		if (typeof window === 'undefined') return;
+		
+		window.localStorage.clear();
+	};
+
+	
 	const [value, setValue] = useState<T | undefined> (() => {
 		if (typeof window === 'undefined') return defaultValue; // server side rendering
 
@@ -32,8 +39,7 @@ function useLocalStorage<T>(
 		const updateLocalStorage = () => {
 			// Browser ONLY dispatch storage events to other tabs, NOT current tab.
 			// We need to manually dispatch storage event for current tab
-			if (value !== undefined) {
-				
+			if (value !== undefined) {				
 				const newValue = JSON.stringify(value);				
 				rawValueRef.current = newValue;
 				window.localStorage.setItem(key, newValue);
@@ -44,8 +50,8 @@ function useLocalStorage<T>(
 						key,
 						newValue					
 					})
-				);
-			} else {
+				);				
+			} else {				
 				window.localStorage.removeItem(key);
 				window.dispatchEvent(
 					new StorageEvent('storage', {
@@ -86,7 +92,7 @@ function useLocalStorage<T>(
 		return () => window.removeEventListener('storage', handleStorageChange);
 	}, [key]);
 
-	return [value as T, setValue];
+	return [value as T, setValue, clear];
 }
 
 export default useLocalStorage;

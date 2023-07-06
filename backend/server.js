@@ -28,6 +28,12 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* app.use(function (req, res, next) {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+  // res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  next();
+});
+ */
 
 const oAuth2Client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,

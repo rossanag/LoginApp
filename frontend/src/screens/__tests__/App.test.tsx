@@ -15,7 +15,7 @@ describe('<App />', () => {
 
 		// Get by h1
 		const h1 = wrapper.container.querySelector('h1');
-		expect(h1?.textContent).toBe('LoginApp with React 18');
+		expect(h1?.textContent).toBe('ToDo App');
 
 		// const button = screen.getByRole('button');
 		// screen.getByRole('button' { name: 'Channels', hidden: true });

@@ -4,7 +4,7 @@
     "target": "esnext",
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["vite/client", "jest"],
+    "types": ["vite/client", "vitest/globals","jest"],
     "allowJs": true,
     "declaration": true,
     "skipLibCheck": true,    

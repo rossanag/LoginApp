@@ -24,8 +24,8 @@ const Login = () => {
 
 		try {			
 			setLoading(true);
-			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT as string,  token, { signal: controller.signal});									
-			
+
+			const data  = await apiGoogle.post(import.meta.env.VITE_GOOGLE_OAUTH_ENDPOINT as string,  token, { signal: controller.signal});												
 			const user = data.data;
 			const gtokens = data.data.gtokens;
 			setError(false);			

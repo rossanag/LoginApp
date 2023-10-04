@@ -62,15 +62,17 @@ apiGoogle.interceptors.response.use (
 
 
 
-/* apiGoogle.interceptors.request.use((request) => {
+apiGoogle.interceptors.request.use((request) => {
 	console.log('interceptor request ', request.data);
 	const token = localStorage.getItem('token');
 	if (token) {
-		request.headers.common.Authorization = token;
+		request.headers['Authorization'] = 'Bearer ' + token	;
 	}
 	return request;
 	
-}); */
+},
+(error) => {Promise.reject(error);}
+); 
 
 
 

@@ -38,14 +38,13 @@ const Login = () => {
 												
 			return user as User;
 		} catch (error) {
+			setError(true);		
 			if (axios.isCancel(error)) {
 				// request cancelled							
-				controller.abort();	
-				setError(true);
+				controller.abort();					
 			} else if (error instanceof AxiosError) {
 				throw error.response?.data || error.message;
-			}
-			setError(true);		
+			}			
 		}		
 		return {} as User;
 		
@@ -67,7 +66,7 @@ const Login = () => {
 		flow: 'auth-code',
 	});
 
-	useEffect(() => {	
+	useEffect(() => {	 
 		
 		console.log('user en useEffect ', user);
 		if (user) {		
@@ -83,8 +82,7 @@ const Login = () => {
 	
 	return (
 		<>
-			<GoogleButton onClick={googleLogin}/>
-			<br></br>
+			<GoogleButton onClick={googleLogin}/>			
 			<br></br><br></br>
 			{error ? 
 				<p>Hubo un error al recuperar los datos del usuario</p> 

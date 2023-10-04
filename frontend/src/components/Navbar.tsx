@@ -1,9 +1,8 @@
 import {useState, useEffect } from 'react';
+
 import { NavLink } from 'react-router-dom';
-
-// import LoginGoogle from './LoginGoogle';
-
 import { User } from '../types';
+import { useLocalStorage } from '../hooks';
 
 const Navbar = () => {
 	const activeLink = 'bg-blue-100 text-black';
@@ -14,7 +13,8 @@ const Navbar = () => {
 	console.log('en Navbar');
 	
 	
-	const  user : User = JSON.parse(localStorage.getItem('user' ) as string);
+	// const  user : User = JSON.parse(localStorage.getItem('user' ) as string);
+	const [user,] = useLocalStorage<User | null>('user',null);
 
 	useEffect(() => {		
 		setIsLogged(true);

@@ -50,13 +50,14 @@ const Login = () => {
 		
 	};
 		
+	
 	const googleLogin = useGoogleLogin({				
 		onSuccess: async (code ) => {				
 			try {
-				const userInfo = await getUser(code );
+				const userInfo = await getUser(code );				
 				setCodeResponse(code);			
 				setUser(userInfo);	
-				console.log('user en googleLogin ', userInfo);			
+				//console.log('user en googleLogin ', userInfo);			
 			}
 			catch (error) {
 				console.log('Hubo un error al recuperar los datos del usuario ', error);
@@ -70,8 +71,7 @@ const Login = () => {
 		
 		console.log('user en useEffect ', user);
 		if (user) {		
-			console.log('user en useEffect dentro del if', user);		
-			setUser(user); // this is for the hook useLocalStorage
+			console.log('user en useEffect dentro del if', user);					
 			setLoading(false);				
 			navigate('home', {replace: true});									
 		}	

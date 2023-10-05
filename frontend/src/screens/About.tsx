@@ -13,6 +13,7 @@ const About = () => {
 				setAboutData(resp.data);
 			} catch (error) {
 				console.log('error en About ', error);
+				//Change this to a toast
 			}
 		};
 		fetchData();

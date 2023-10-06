@@ -38,8 +38,22 @@ app.use(express.urlencoded({ extended: true }));
 const oAuth2Client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  'postmessage',
+  'postmessage',  
 );
+
+oAuth2Client.on('tokens', (tokens) => {
+  //save refresh_toke
+  if (tokens.refresh_token) {
+    console.log('refresh token ', tokens.refresh_token);
+  }
+  console.log('access token ', tokens.access_token);
+});
+
+oAuth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+  forceRefreshOnFailure: true
+});
+
 
 app.get('/oauth2callback', async (req, res) => {
   const today = new Date();
@@ -91,14 +105,21 @@ const getUser = async (tokens) => {
                 Accept: 'application/json',               
             }
         })                         
-        
+        console.log('resp.data ', resp.data)
         user = {
           ...resp.data,
           gtokens         
-        }                                                                
+        }           
+        // if the user exists, if it's not already in the database, save it
+        // if not exists, send the message to the client
         console.log('user in server ', user);                  
     }    
-    catch(err) { console.log(err) };
+    catch(err) { 
+      console.log(err)         
+      // instead of err.message we use a more UX friendly approach  
+      res.status(500).send("Please, try again later")
+        
+    };
   } 
  
   return user;
@@ -106,11 +127,14 @@ const getUser = async (tokens) => {
 }
 
 app.post('/auth/google/refresh-token', async (req, res) => {
-  const user = new UserRefreshClient(
+  const user = new UserRefreshClient(//console.log('about')
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     req.body.refreshToken,
   );
+  // check if it exists in our database
+  // if exists, then check if it is expired, if not exist send 403.  
+  
   const { credentials } = await user.refreshAccessToken(); // optain new tokens
   res.json(credentials);
 })
@@ -119,6 +143,7 @@ app.post('/auth/google/refresh-token', async (req, res) => {
 app.post('/oauth/google', async (req, res) => {
   
   const { tokens } = await oAuth2Client.getToken(req.body.code); // exchange code for tokens
+  oAuth2Client.setCredentials(tokens);
 
   try {
     const user = await getUser(tokens);
@@ -132,6 +157,10 @@ app.post('/oauth/google', async (req, res) => {
     res.status(500).send(err.message)
   }
       
+});
+
+app.post('/about', async (req, res) => {  
+  res.send('This is About page data from server').status(200)
 });
 
 app.listen(process.env.PORT, () => console.log(`Server is running`));

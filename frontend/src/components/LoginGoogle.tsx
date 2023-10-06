@@ -44,8 +44,13 @@ const Login = () => {
 				controller.abort();					
 			} else if (error instanceof AxiosError) {
 				throw error.response?.data || error.message;
-			}			
+			}
+		
+		}
+		finally {
+			setLoading(false);
 		}		
+		
 		return {} as User;
 		
 	};
